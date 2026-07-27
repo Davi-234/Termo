@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-color: #6e5c62;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #tebuleiro {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 10px;
+        }
+
+        .palavra {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            font-size: 1em;
+            gap: 5px;
+            height: auto;
+            width: auto;
+        }
+
+        .leter {
+            aspect-ratio: 1;
+            font-weight: 600;
+            font-family: 'Mitr', sans-serif;
+            color: #FAFAFF;
+            background-color: #615458;
+            border: 0.225em solid #615458;
+            border-radius: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: larger;
+            line-height: 1em;
+            text-transform: uppercase;
+
+            width: 60px;
+            height: 60px;
+        }
+
+        .editavel {
+            background-color: transparent;
+            border-color: #4C4347;
+            cursor: pointer;
+        }
+
+        .selecionado {
+            border-bottom-width: 0.465em;
+            border-bottom-style: solid;
+            border-bottom-color: rgb(76, 67, 71);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tebuleiro">
+        <div class="palavra">
+            <div class="leter editavel selecionado"></div>
+            <div class="leter editavel"></div>
+            <div class="leter editavel"></div>
+            <div class="leter editavel"></div>
+            <div class="leter editavel"></div>
+        </div>
+        <div class="palavra">
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+        </div>
+        <div class="palavra">
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+        </div>
+        <div class="palavra">
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+        </div>
+        <div class="palavra">
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+        </div>
+        <div class="palavra">
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+            <div class="leter"></div>
+        </div>
+    </div>
+</body>
+<script src="../jquery.min.js"></script>
+<script>
+    $('.leter.editavel').on('click', function () {
+        document.getElementsByClassName('leter editavel selecionado')[0].classList.remove('selecionado');
+        $(this).addClass('selecionado');
+    });
+</script>
+<script src="leitor_json.js"></script>
+<script>
+    let palavra_editavel = Array.from(document.getElementsByClassName('leter editavel'));
+    function adicionar_letra(tecla) {
+        // Percorre a'palavra_editavel', que um vetor de letras
+        for (let i = 0; i < palavra_editavel.length; i++) {
+            // Analisa se o setor atual é o que foi selecionada pelo usuário
+            if (palavra_editavel[i].classList.contains('selecionado')) {
+                // Adiciona a letra no setor selecionado
+                palavra_editavel[i].innerHTML = tecla;
+                // Se a posição atual for anterior a última posição do vetor
+                if (i < (palavra_editavel.length - 1)) {
+                    // Remove o selecionamento do setor no qual fora adicionada uma letra
+                    palavra_editavel[i].classList.remove('selecionado');
+                    // Seleciona o setor sequinte ao atual
+                    palavra_editavel[i + 1].classList.add('selecionado');
+                }
+                break; // encerra o laço quando o setor selecionado tem a letra adicionado em seu innerHTML
+            }
+        }
+    }
+
+    function backspace() {
+        for (let i = 0; i < palavra_editavel.length; i++) {
+            // Analisa se o setor atual é o que foi selecionada pelo usuário
+            if (palavra_editavel[i].classList.contains('selecionado')) {
+                // Retira a letra no setor selecionado
+                palavra_editavel[i].innerHTML = "";
+                // Se a posição anterior a atual for válida para vetores 
+                if (i - 1 > -1) {
+                    // Remove o selecionamento do setor no qual fora retirada uma letra
+                    palavra_editavel[i].classList.remove('selecionado');
+                    // Seleciona o setor anterior ao atual
+                    palavra_editavel[i - 1].classList.add('selecionado');
+                }
+                break; // encerra o laço quando o setor selecionado tem a letra retirada de seu innerHTML
+            }
+        }
+    }
+
+    function space() {
+        for (let i = 0; i < palavra_editavel.length; i++) {
+            // Analisa se o setor atual é o que foi selecionada pelo usuário
+            if (palavra_editavel[i].classList.contains('selecionado')) {
+                // Se a posição atual for anterior a última posição do vetor
+                if (i < (palavra_editavel.length - 1)) {
+                    palavra_editavel[i].classList.remove('selecionado');
+                    palavra_editavel[i + 1].classList.add('selecionado');
+                    /* O setor atualmente selecionado deixa de estar selecionado, e o seguinte é selecionado. */
+                }
+                break;
+            }
+        }
+    }
+
+    function avaliar_palavra() {
+        for (let i = 0; i < palavra_editavel.length; i++) {
+            
+            break;
+        }
+    }
+
+    function mostrar_tecla_incorreta(tecla) {
+
+    }
+</script>
+<script>
+    window.addEventListener('keydown', function (event) {
+        const tecla = event.key.toLowerCase();
+
+        if (tecla >= 'a' && tecla <= 'z' && tecla.length === 1) {
+            adicionar_letra(tecla);
+        }
+
+        // Switch focado nas teclas especiais e comandos
+        switch (event.key) {
+            case 'Enter':
+                avaliar_palavra();
+                break;
+            case ' ': // Espaço vem como um caractere vazio na string
+                space();
+                break;
+            case 'Backspace':
+                backspace();
+                break;
+            default:
+                mostrar_tecla_incorreta();
+                break;
+        }
+    });
+</script>
+
+</html>
