@@ -143,10 +143,14 @@
     });
 </script>
 <script src="leitor_json.js"></script>
-<script>
+<script defer>
     let index_campo_palavras = 0;
     let palavra = Array.from(document.getElementsByClassName('palavra')[index_campo_palavras].children);
-    const palavra_sort_instancia = carregarPalavras();
+    let promise_value;
+    window.onload = async () => {
+        promise_value = await carregarPalavras();
+    };
+    const palavra_sort_instancia = promise_value;
 
     function adicionar_letra(tecla) {
         // Percorre a'palavra', que um vetor de letras
@@ -265,7 +269,7 @@
 
     function ganhar(palavra) {
         let count = 0;
-        
+
         for (let i = 0; i < palavra.length; i++) {
             if (palavra[i].classList.contains('acerto')) {
                 count++;
