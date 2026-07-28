@@ -6,6 +6,5 @@ async function carregarPalavras() {
     const palavra = palavras[indice];
 
     console.log(palavra);
+    return palavra;
 }
-
-carregarPalavras();
