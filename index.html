@@ -119,11 +119,15 @@
         </div>
     </div>
 </body>
-<script src="../jquery.min.js"></script>
 <script>
-    $('.leter.editavel').on('click', function () {
-        document.getElementsByClassName('leter editavel selecionado')[0].classList.remove('selecionado');
-        $(this).addClass('selecionado');
+    document.querySelectorAll('.leter.editavel').forEach(elemento => {
+        elemento.addEventListener('click', function () {
+            document
+                .querySelector('.leter.editavel.selecionado')
+                ?.classList.remove('selecionado');
+
+            this.classList.add('selecionado');
+        });
     });
 </script>
 <script src="leitor_json.js"></script>
@@ -183,7 +187,7 @@
 
     function avaliar_palavra() {
         for (let i = 0; i < palavra_editavel.length; i++) {
-            
+
             break;
         }
     }
