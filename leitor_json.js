@@ -5,6 +5,5 @@ async function carregarPalavras() {
     const indice = Math.floor(Math.random() * palavras.length);
     const palavra = palavras[indice];
 
-    console.log(palavra);
     return palavra;
 }

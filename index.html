@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Termo</title>
     <style>
         * {
             margin: 0;
@@ -57,12 +57,14 @@
 
             width: 60px;
             height: 60px;
+            pointer-events: none;
         }
 
         .editavel {
             background-color: transparent;
             border-color: #4C4347;
             cursor: pointer;
+            pointer-events: auto;
         }
 
         .selecionado {
@@ -73,10 +75,14 @@
 
         .acerto {
             background-color: greenyellow;
+            cursor: none;
+            pointer-events: none;
         }
 
         .lugar_errado {
             background-color: yellow;
+            cursor: none;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -130,9 +136,7 @@
 <script>
     document.querySelectorAll('.leter.editavel').forEach(elemento => {
         elemento.addEventListener('click', function () {
-            document
-                .querySelector('.leter.editavel.selecionado')
-                ?.classList.remove('selecionado');
+            document.querySelector('.leter.editavel.selecionado')?.classList.remove('selecionado');
 
             this.classList.add('selecionado');
         });
@@ -140,20 +144,23 @@
 </script>
 <script src="leitor_json.js"></script>
 <script>
-    let palavra_editavel = Array.from(document.getElementsByClassName('leter editavel'));
+    let index_campo_palavras = 0;
+    let palavra = Array.from(document.getElementsByClassName('palavra')[index_campo_palavras].children);
+    const palavra_sort_instancia = carregarPalavras();
+
     function adicionar_letra(tecla) {
-        // Percorre a'palavra_editavel', que um vetor de letras
-        for (let i = 0; i < palavra_editavel.length; i++) {
+        // Percorre a'palavra', que um vetor de letras
+        for (let i = 0; i < palavra.length; i++) {
             // Analisa se o setor atual é o que foi selecionada pelo usuário
-            if (palavra_editavel[i].classList.contains('selecionado')) {
+            if (palavra[i].classList.contains('selecionado')) {
                 // Adiciona a letra no setor selecionado
-                palavra_editavel[i].innerHTML = tecla;
+                palavra[i].innerHTML = tecla;
                 // Se a posição atual for anterior a última posição do vetor
-                if (i < (palavra_editavel.length - 1)) {
+                if (i < (palavra.length - 1)) {
                     // Remove o selecionamento do setor no qual fora adicionada uma letra
-                    palavra_editavel[i].classList.remove('selecionado');
+                    palavra[i].classList.remove('selecionado');
                     // Seleciona o setor sequinte ao atual
-                    palavra_editavel[i + 1].classList.add('selecionado');
+                    palavra[i + 1].classList.add('selecionado');
                 }
                 break; // encerra o laço quando o setor selecionado tem a letra adicionado em seu innerHTML
             }
@@ -161,17 +168,17 @@
     }
 
     function backspace() {
-        for (let i = 0; i < palavra_editavel.length; i++) {
+        for (let i = 0; i < palavra.length; i++) {
             // Analisa se o setor atual é o que foi selecionada pelo usuário
-            if (palavra_editavel[i].classList.contains('selecionado')) {
+            if (palavra[i].classList.contains('selecionado')) {
                 // Retira a letra no setor selecionado
-                palavra_editavel[i].innerHTML = "";
+                palavra[i].innerHTML = "";
                 // Se a posição anterior a atual for válida para vetores 
                 if (i - 1 > -1) {
                     // Remove o selecionamento do setor no qual fora retirada uma letra
-                    palavra_editavel[i].classList.remove('selecionado');
+                    palavra[i].classList.remove('selecionado');
                     // Seleciona o setor anterior ao atual
-                    palavra_editavel[i - 1].classList.add('selecionado');
+                    palavra[i - 1].classList.add('selecionado');
                 }
                 break; // encerra o laço quando o setor selecionado tem a letra retirada de seu innerHTML
             }
@@ -179,13 +186,13 @@
     }
 
     function space() {
-        for (let i = 0; i < palavra_editavel.length; i++) {
+        for (let i = 0; i < palavra.length; i++) {
             // Analisa se o setor atual é o que foi selecionada pelo usuário
-            if (palavra_editavel[i].classList.contains('selecionado')) {
+            if (palavra[i].classList.contains('selecionado')) {
                 // Se a posição atual for anterior a última posição do vetor
-                if (i < (palavra_editavel.length - 1)) {
-                    palavra_editavel[i].classList.remove('selecionado');
-                    palavra_editavel[i + 1].classList.add('selecionado');
+                if (i < (palavra.length - 1)) {
+                    palavra[i].classList.remove('selecionado');
+                    palavra[i + 1].classList.add('selecionado');
                     /* O setor atualmente selecionado deixa de estar selecionado, e o seguinte é selecionado. */
                 }
                 break;
@@ -194,28 +201,82 @@
     }
 
     function avaliar_palavra() {
-        const palavra_sort = carregarPalavras();
-        for (let i = 0; i < palavra_editavel.length; i++) {
-            if (palavra_editavel[i].classList.contains('selecionado')) {
-                palavra_editavel[i].classList.remove('selecionado')
+        let palavra_sort = palavra_sort_instancia;
+
+        for (let i = 0; i < palavra.length; i++) {
+            if (palavra[i].innerHTML === '' || palavra[i].innerHTML === null) {
+                return;
             }
-            if (palavra_editavel[i] === palavra_sort[i]) {
-                palavra_editavel[i].classList.add('acerto');
+        }
+
+        for (let i = 0; i < palavra.length; i++) {
+            if (palavra[i].innerHTML === palavra_sort[i]) {
+                palavra[i].classList.add('acerto');
+                palavra_sort =
+                    palavra_sort.slice(0, i) +
+                    "*" +
+                    palavra_sort.slice(i + 1);
             }
+        }
+
+        for (let i = 0; i < palavra.length; i++) {
+            palavra[i].classList.remove('editavel');
+
+            if (palavra[i].classList.contains('selecionado')) {
+                palavra[i].classList.remove('selecionado')
+            }
+
             for (let a = 0; a < palavra_sort.length; a++) {
-                if (a === i) {
+                if (a === i || palavra_sort[a] === "*") {
                     continue;
                 }
 
-                if (palavra_editavel[i] === palavra_sort[a]) {
-                    palavra_editavel[i].classList.add('lugar_errado');
+                if (palavra[i].innerHTML === palavra_sort[a]) {
+                    palavra[i].classList.add('lugar_errado');
+                    palavra_sort =
+                        palavra_sort.slice(0, a) +
+                        "*" +
+                        palavra_sort.slice(a + 1);
+                    break;
                 }
             }
+        }
+
+        if (!ganhar(palavra)) proximo_campo_palavra();
+    }
+
+    function proximo_campo_palavra() {
+        if (index_campo_palavras >= 5) {
+            console.log('Perdeu');
+            return;
+        }
+        index_campo_palavras++;
+        palavra = Array.from(document.getElementsByClassName('palavra')[index_campo_palavras].children);
+
+        for (let i = 0; i < palavra.length; i++) {
+            palavra[i].classList.add('editavel');
+            if (i === 0) palavra[i].classList.add('selecionado');
         }
     }
 
     function mostrar_tecla_incorreta(tecla) {
 
+    }
+
+    function ganhar(palavra) {
+        let count = 0;
+        
+        for (let i = 0; i < palavra.length; i++) {
+            if (palavra[i].classList.contains('acerto')) {
+                count++;
+            }
+        }
+
+        if (count === 5) {
+            console.log('Ganhou')
+        }
+
+        return false;
     }
 </script>
 <script>
