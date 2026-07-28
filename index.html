@@ -211,6 +211,10 @@
             }
         }
 
+        if (!palavra_existe(palavra)) {
+            return;
+        }
+
         for (let i = 0; i < palavra.length; i++) {
             if (palavra[i].innerHTML === palavra_sort[i]) {
                 palavra[i].classList.add('acerto');
@@ -281,6 +285,7 @@
 
         return false;
     }
+
 </script>
 <script>
     window.addEventListener('keydown', function (event) {
