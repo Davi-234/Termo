@@ -146,12 +146,10 @@
 <script defer>
     let index_campo_palavras = 0;
     let palavra = Array.from(document.getElementsByClassName('palavra')[index_campo_palavras].children);
-    let promise_value;
+    let palavra_sort_instancia;
     window.onload = async () => {
-        promise_value = await carregarPalavras();
+        palavra_sort_instancia = await carregarPalavras();
     };
-    const palavra_sort_instancia = promise_value;
-
     function adicionar_letra(tecla) {
         // Percorre a'palavra', que um vetor de letras
         for (let i = 0; i < palavra.length; i++) {
