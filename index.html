@@ -136,7 +136,7 @@
 <script>
     document.querySelectorAll('.leter.editavel').forEach(elemento => {
         elemento.addEventListener('click', function () {
-            document.querySelector('.leter.editavel.selecionado')?.classList.remove('selecionado');
+            document.querySelectorAll('.leter.editavel.selecionado')[0].classList.remove('selecionado');
 
             this.classList.add('selecionado');
         });
@@ -245,6 +245,7 @@
         }
 
         if (!ganhar(palavra)) proximo_campo_palavra();
+        else console.log('Ganhou');
     }
 
     function proximo_campo_palavra() {
@@ -275,7 +276,7 @@
         }
 
         if (count === 5) {
-            console.log('Ganhou')
+            return true;
         }
 
         return false;
