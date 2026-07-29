@@ -149,6 +149,7 @@
     let palavra_sort_instancia;
     window.onload = async () => {
         palavra_sort_instancia = await carregarPalavras();
+        await carregarLista();
     };
     function adicionar_letra(tecla) {
         // Percorre a'palavra', que um vetor de letras
@@ -211,7 +212,7 @@
             }
         }
 
-        if (!palavra_existe(palavra.join(""))) {
+        if (!(palavra_existe(palavra.map(letra => letra.innerHTML.toLowerCase()).join("")))) {
             return;
         }
 

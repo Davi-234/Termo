@@ -15,9 +15,9 @@ async function carregarLista() {
     listaDePalavras = await resposta.json();
 }
 
-async function palavra_existe(palavra) {
+function palavra_existe(palavra) {
     // Verifica se a palavra exata existe na lista (Retorna true ou false)
-    return listaDePalavras.includes(palavra_aux);
+    return listaDePalavras.includes(palavra);
 }
 
 await carregarLista();
