@@ -204,7 +204,7 @@
     }
 
     function avaliar_palavra() {
-        let palavra_sort = palavra_sort_instancia;
+        let palavra_sort = palavra_sort_instancia.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         for (let i = 0; i < palavra.length; i++) {
             if (palavra[i].innerHTML === '' || palavra[i].innerHTML === null) {
@@ -281,6 +281,9 @@
         }
 
         if (count === 5) {
+            for (let i = 0; i < palavra.length; i++) {
+                palavra[i].innerHTML = palavra_sort_instancia[i];
+            }
             return true;
         }
 
