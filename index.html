@@ -134,13 +134,16 @@
     </div>
 </body>
 <script>
-    document.querySelectorAll('.leter.editavel').forEach(elemento => {
-        elemento.addEventListener('click', function () {
-            document.querySelectorAll('.leter.editavel.selecionado')[0].classList.remove('selecionado');
+    function permitir_selecao_de_seletor() {
+        document.querySelectorAll('.leter.editavel').forEach(elemento => {
+            elemento.addEventListener('click', function () {
+                document.querySelectorAll('.leter.editavel.selecionado')[0].classList.remove('selecionado');
 
-            this.classList.add('selecionado');
+                this.classList.add('selecionado');
+            });
         });
-    });
+    }
+    permitir_selecao_de_seletor();
 </script>
 <script src="leitor_json.js"></script>
 <script defer>
@@ -254,7 +257,7 @@
     }
 
     function proximo_campo_palavra() {
-        if (index_campo_palavras >= 5) {
+        if (index_campo_palavras > palavra.length) {
             console.log('Perdeu');
             return;
         }
@@ -265,6 +268,7 @@
             palavra[i].classList.add('editavel');
             if (i === 0) palavra[i].classList.add('selecionado');
         }
+        permitir_selecao_de_seletor();
     }
 
     function mostrar_tecla_incorreta(tecla) {
