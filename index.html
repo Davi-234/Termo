@@ -220,16 +220,6 @@
         }
 
         for (let i = 0; i < palavra.length; i++) {
-            if (palavra[i].innerHTML === palavra_sort[i]) {
-                palavra[i].classList.add('acerto');
-                palavra_sort =
-                    palavra_sort.slice(0, i) +
-                    "*" +
-                    palavra_sort.slice(i + 1);
-            }
-        }
-
-        for (let i = 0; i < palavra.length; i++) {
             palavra[i].classList.remove('editavel');
 
             if (palavra[i].classList.contains('selecionado')) {
@@ -249,6 +239,16 @@
                         palavra_sort.slice(a + 1);
                     break;
                 }
+            }
+        }
+
+        for (let i = 0; i < palavra.length; i++) {
+            if (palavra[i].innerHTML === palavra_sort[i]) {
+                palavra[i].classList.add('acerto');
+                palavra_sort =
+                    palavra_sort.slice(0, i) +
+                    "*" +
+                    palavra_sort.slice(i + 1);
             }
         }
 
@@ -294,6 +294,43 @@
         return false;
     }
 
+    function seta_esquerda() {
+        for (let i = 0; i < palavra.length; i++) {
+            // Analisa se o setor atual é o que foi selecionada pelo usuário
+            if (palavra[i].classList.contains('selecionado')) {
+                // Se a posição anterior a atual for válida para vetores 
+                if (i - 1 > -1) {
+                    // Remove o selecionamento do setor no qual fora retirada uma letra
+                    palavra[i].classList.remove('selecionado');
+                    // Seleciona o setor anterior ao atual
+                    palavra[i - 1].classList.add('selecionado');
+                } else {
+                    palavra[i].classList.remove('selecionado');
+                    palavra[palavra.length - 1].classList.add('selecionado');
+                }
+                break;
+            }
+        }
+    }
+
+    function seta_direita() {
+        for (let i = 0; i < palavra.length; i++) {
+            // Analisa se o setor atual é o que foi selecionada pelo usuário
+            if (palavra[i].classList.contains('selecionado')) {
+                // Se a posição atual for anterior a última posição do vetor
+                if (i < (palavra.length - 1)) {
+                    palavra[i].classList.remove('selecionado');
+                    palavra[i + 1].classList.add('selecionado');
+                    /* O setor atualmente selecionado deixa de estar selecionado, e o seguinte é selecionado. */
+                } else {
+                    palavra[i].classList.remove('selecionado');
+                    palavra[0].classList.add('selecionado');
+                }
+                break;
+            }
+        }
+    }
+
 </script>
 <script>
     window.addEventListener('keydown', function (event) {
@@ -313,6 +350,12 @@
                 break;
             case 'Backspace':
                 backspace();
+                break;
+            case 'ArrowLeft':
+                seta_esquerda();
+                break;
+            case 'ArrowRight':
+                seta_direita();
                 break;
             default:
                 mostrar_tecla_incorreta();
