@@ -84,6 +84,33 @@
             cursor: none;
             pointer-events: none;
         }
+
+         #teclado {
+            display: grid;
+            grid-template-columns: repeat(13, auto);
+            gap: 5px;
+            margin-top: auto;
+            margin-bottom: 20px;
+        }
+
+        #teclado span {
+            border-radius: 10px;
+            border: 1px black solid;
+            color: black;
+            background-color: transparent;
+            width: 85%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10%;
+        }
+
+        @media (max-width: 648px) {
+            #teclado {
+                grid-template-columns: repeat(7, auto);
+            }
+        }
     </style>
 </head>
 
@@ -131,6 +158,39 @@
             <div class="leter"></div>
             <div class="leter"></div>
         </div>
+    </div>
+
+    <div id="teclado">
+        <span>A</span>
+        <span>B</span>
+        <span>C</span>
+        <span>D</span>
+        <span>E</span>
+
+        <span>F</span>
+        <span>G</span>
+        <span>H</span>
+        <span>I</span>
+        <span>J</span>
+
+        <span>K</span>
+        <span>L</span>
+        <span>M</span>
+        <span>N</span>
+        <span>O</span>
+
+        <span>P</span>
+        <span>Q</span>
+        <span>R</span>
+        <span>S</span>
+        <span>T</span>
+
+        <span>U</span>
+        <span>V</span>
+        <span>W</span>
+        <span>X</span>
+        <span>Y</span>
+        <SPan>Z</SPan>
     </div>
 </body>
 <script>
