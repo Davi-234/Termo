@@ -19,9 +19,11 @@
 
         body {
             background-color: #6e5c62;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            grid-template-areas: "header"
+                "app_center"
+                "teclado";
+            grid-template-rows: 1fr 5fr 1fr;
         }
 
         #tebuleiro {
@@ -85,12 +87,21 @@
             pointer-events: none;
         }
 
-         #teclado {
+        #app_center {
+            grid-area: app_center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #teclado {
+            grid-area: teclado;
             display: grid;
             grid-template-columns: repeat(13, auto);
             gap: 5px;
-            margin-top: auto;
             margin-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 30px;
         }
 
         #teclado span {
@@ -98,7 +109,7 @@
             border: 1px black solid;
             color: black;
             background-color: transparent;
-            width: 85%;
+            width: 75%;
             height: 100%;
             display: flex;
             align-items: center;
@@ -115,50 +126,56 @@
 </head>
 
 <body>
-    <div id="tebuleiro">
-        <div class="palavra">
-            <div class="leter editavel selecionado"></div>
-            <div class="leter editavel"></div>
-            <div class="leter editavel"></div>
-            <div class="leter editavel"></div>
-            <div class="leter editavel"></div>
+    <header>
+
+    </header>
+
+    <section id="app_center">
+        <div id="tebuleiro">
+            <div class="palavra">
+                <div class="leter editavel selecionado"></div>
+                <div class="leter editavel"></div>
+                <div class="leter editavel"></div>
+                <div class="leter editavel"></div>
+                <div class="leter editavel"></div>
+            </div>
+            <div class="palavra">
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+            </div>
+            <div class="palavra">
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+            </div>
+            <div class="palavra">
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+            </div>
+            <div class="palavra">
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+            </div>
+            <div class="palavra">
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+                <div class="leter"></div>
+            </div>
         </div>
-        <div class="palavra">
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-        </div>
-        <div class="palavra">
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-        </div>
-        <div class="palavra">
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-        </div>
-        <div class="palavra">
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-        </div>
-        <div class="palavra">
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-            <div class="leter"></div>
-        </div>
-    </div>
+    </section>
 
     <div id="teclado">
         <span>A</span>
@@ -193,6 +210,13 @@
         <SPan>Z</SPan>
     </div>
 </body>
+<script>
+    Array.from(document.querySelectorAll("#teclado span")).forEach(element => {
+        element.addEventListener("click", function () {
+            adicionar_letra(element.innerHTML);
+        });
+    });
+</script>
 <script>
     function permitir_selecao_de_seletor() {
         document.querySelectorAll('.leter.editavel').forEach(elemento => {
