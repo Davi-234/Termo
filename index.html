@@ -207,14 +207,20 @@
         <span>W</span>
         <span>X</span>
         <span>Y</span>
-        <SPan>Z</SPan>
+        <span>Z</span>
+
+        <span class="enter">ENTER</span>
     </div>
 </body>
 <script>
-    Array.from(document.querySelectorAll("#teclado span")).forEach(element => {
+    Array.from(document.querySelectorAll("#teclado span:not(.enter)")).forEach(element => {
         element.addEventListener("click", function () {
             adicionar_letra(element.innerHTML);
         });
+    });
+
+    document.getelementsbyclass("enter")[0].addEventListener("click", function() {
+        avaliar_palavra();
     });
 </script>
 <script>
