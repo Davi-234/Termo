@@ -210,17 +210,22 @@
         <span>Z</span>
 
         <span class="enter">ENTER</span>
+        <span class="apagar">APAGAR</span>
     </div>
 </body>
 <script>
-    Array.from(document.querySelectorAll("#teclado span:not(.enter)")).forEach(element => {
+    Array.from(document.querySelectorAll("#teclado span:not(.enter, .apagar)")).forEach(element => {
         element.addEventListener("click", function () {
             adicionar_letra(element.innerHTML);
         });
     });
 
-    document.getelementsbyclass("enter")[0].addEventListener("click", function() {
+    document.getElementsByClassName("enter")[0].addEventListener("click", function() {
         avaliar_palavra();
+    });
+
+    document.getElementsByClassName("apagar")[0].addEventListener("click", function() {
+        backspace();
     });
 </script>
 <script>
@@ -228,7 +233,6 @@
         document.querySelectorAll('.leter.editavel').forEach(elemento => {
             elemento.addEventListener('click', function () {
                 document.querySelectorAll('.leter.editavel.selecionado')[0].classList.remove('selecionado');
-
                 this.classList.add('selecionado');
             });
         });
