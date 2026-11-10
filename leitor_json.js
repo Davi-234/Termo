@@ -1,4 +1,4 @@
-async function carregarPalavras() {
+/*async function carregarPalavras() {
   const resposta = await fetch("palavras.json");
   const palavras = await resposta.json();
 
@@ -20,4 +20,17 @@ function palavra_existe(palavra) {
   return listaDePalavras.includes(
     palavra.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   );
+}*/
+
+async function pegarPalavraDeCincoLetras() {
+  let palavra = "";
+  
+  // O código continua tentando até achar uma com 5 letras
+  while (palavra.length !== 5) {
+    const response = await fetch('https://dicionario-aberto.net');
+    const data = await response.json();
+    palavra = data.word;
+  }
+  
+  console.log("Palavra de 5 letras encontrada:", palavra);
 }
